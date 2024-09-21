@@ -8,7 +8,7 @@ const clearDataSchedule = (): void => {
         const minutes = now.getMinutes();
 
         // Verifica se é 20h
-        if (hours === 15 && minutes === 0) {
+        if (hours === 0 && minutes === 0) {
             console.log('Limpando o estado do processSlice às 20h...');
             store.dispatch(clearData());
         }

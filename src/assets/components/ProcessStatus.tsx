@@ -37,9 +37,9 @@ const ProcessStatus = () => {
                 <table className="min-w-full table-auto border-collapse">
                     <thead className="bg-orange-500 rounded-xl shadow-md">
                         <tr>
-                            <th className="px-2 py-3 text-left text-white text-base font-medium sm:text-sm min-w-[100px]">ESTAÇÃO</th>
-                            <th className="px-2 py-3 text-left text-white text-base font-medium sm:text-sm min-w-[100px]">ROTA</th>
-                            <th className="px-2 py-3 text-left text-white text-base font-medium sm:text-sm min-w-[100px]">HORÁRIO</th>
+                            <th className="px-2 py-3 text-left text-white text-base lg:text-xl font-medium sm:text-sm min-w-[100px]">ESTAÇÃO</th>
+                            <th className="px-2 py-3 text-left text-white text-base lg:text-xl font-medium sm:text-sm min-w-[100px]">ROTA</th>
+                            <th className="px-2 py-3 text-left text-white text-base lg:text-xl font-medium sm:text-sm min-w-[100px]">HORÁRIO</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@ const ProcessStatus = () => {
                                             size="medium"
                                         />
                                     </td>
-                                    <td className="px-2 py-4 font-semibold text-gray-300 text-base lg:text-lg align-middle">
+                                    <td className="px-2 py-4 font-semibold text-gray-300 text-base lg:text-2xl align-middle">
                                         {item.route}
                                         {item.waiting && (
                                             <div className="ml-2 flex items-center">
@@ -71,7 +71,7 @@ const ProcessStatus = () => {
                                             </div>
                                         )}
                                     </td>
-                                    <td className="px-2 py-4 font-semibold text-gray-300 text-base md:text-base lg:text-lg align-middle">
+                                    <td className="px-2 py-4 font-semibold text-gray-300 text-base md:text-base lg:text-2xl align-middle">
                                         {item.time}
                                     </td>
 

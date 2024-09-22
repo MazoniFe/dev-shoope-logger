@@ -21,7 +21,6 @@ export const processService = {
             const result = await ApiService.post('process', data, {
                 Accept: '*/*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             });
             return result as IRouteData; // Assegura que o resultado é tratado como IRouteData
         } catch (error) {
@@ -35,7 +34,6 @@ export const processService = {
             const result = await ApiService.delete('process/clear', {
                 Accept: '*/*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             });
             return result as IAPIResponse; // Assegura que o resultado é tratado como IRouteData
         } catch (error) {

@@ -10,7 +10,7 @@ export interface ICoreInputProps extends ICoreInput {
     className?: string;
     success?: boolean;
     formDafaultMessage?: string,
-    formValidationFailedMessage? : string,
+    formValidationFailedMessage?: string,
     onChange: (prop?: any) => void;
     formValidation: boolean;
 };
@@ -34,10 +34,10 @@ export interface CoreButtonProps {
 export interface IBadgeProps {
     text: string;
     color?: string;
-    size?: 'small' | 'medium' | 'large';
+    size?: 'small' | 'medium' |'smedium' | 'large';
 };
 
-export interface RouteData {
+export interface IRouteData {
     id?: number | null;
     station: string;
     route: string;
@@ -45,11 +45,25 @@ export interface RouteData {
     waiting: boolean;
 }
 
+export interface IAPIResponse {
+    status: number;
+    message: string;
+}
+
 export interface ProcessState {
-    data: RouteData[];
+    data: IRouteData[];
 }
 
 export interface IStationColorMap {
     [stationNumber: number]: string;
-  }
-  
+}
+
+export interface CoreSpinnerProps {
+    size?: 'small' | 'medium' | 'large'; // Define os tamanhos possíveis
+}
+
+export interface CoreLoadingBarProps {
+    size: 'small' | 'default' | 'large' | 'extra-large';
+    progress: number;
+    hidden: boolean;
+}

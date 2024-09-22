@@ -1,16 +1,16 @@
-import { store } from '../store/store';
-import { clearData } from '../features/process/processSlice';
+import { processService } from "../service/processService";
 
-const clearDataSchedule = (): void => {
-    const checkTime = () => {
+const clearDataSchedule = async (): Promise<void> => {
+    const checkTime = async () => {
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
 
         // Verifica se é 20h
-        if (hours === 0 && minutes === 0) {
+        if (hours >= 17 && minutes >= 42) {
             console.log('Limpando o estado do processSlice às 20h...');
-            store.dispatch(clearData());
+            await processService.clearDatabase();
+            console.log('Dados Limpos do Banco');
         }
     };
 

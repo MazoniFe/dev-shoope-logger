@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import CoreInput from './CoreInput';
 import CoreCheckbox from './CoreCheckbox';
+import CoreLoadingBar from './CoreLoadingBar';
 import CoreButton from './CoreButton';
-import { useDispatch } from 'react-redux';
-import { RouteData } from '../../types/types';
-import { addData } from '../../features/process/processSlice';
+import { IRouteData } from '../../types/types';
+import { processService } from '../../service/processService';
 
 const CallControlForm: React.FC = () => {
-    const dispatch = useDispatch();
     const [isChecked, setIsChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
     const [routeValue, setRouteValue] = useState('');
     const [benchValue, setBenchValue] = useState('');
 
@@ -16,20 +17,47 @@ const CallControlForm: React.FC = () => {
         setIsChecked(event.target.checked);
     };
 
-    const handleButtonClick = () => {
-        const newData: RouteData = {
+    const handleButtonClick = async () => {
+        setLoading(true);
+        const newData: IRouteData = {
             id: null,
             station: benchValue,
             route: routeValue,
             time: new Date().toLocaleTimeString(),
             waiting: isChecked,
         };
-
-        dispatch(addData(newData));
-
-        setRouteValue('');
-        setBenchValue('');
-        setIsChecked(false);
+    
+        try {
+            setProgress(0);
+            
+            // Crie uma promessa para esperar o progresso
+            const progressPromise = new Promise<void>((resolve) => {
+                const intervalId = setInterval(() => {
+                    setProgress((prev) => {
+                        if (prev >= 100) {
+                            clearInterval(intervalId);
+                            resolve(); // Resolve a promessa quando o progresso chega a 100
+                            return 100;
+                        }
+                        return Math.min(prev + 5, 100); // Incrementa o progresso
+                    });
+                }, 50);
+            });
+    
+            // Aguarde a barra de progresso completar
+            await progressPromise;
+    
+            // Após a barra de progresso estar completa, faça a inserção
+            await processService.insertProcess(newData);
+            setProgress(100); // Define o progresso como completo
+        } catch (error) {
+            console.error('Erro ao inserir dados:', error);
+        } finally {
+            setLoading(false); // Para o loading
+            setRouteValue('');
+            setBenchValue('');
+            setIsChecked(false);
+        }
     };
 
     const handleRouteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +146,7 @@ const CallControlForm: React.FC = () => {
                     onChange={handleCheckboxChange}
                 />
                 <div className='mt-4'>
+                    <CoreLoadingBar size={'default'} progress={progress} hidden={!loading}></CoreLoadingBar>
                     <CoreButton
                         label="Chamar Motorista"
                         onClick={handleButtonClick}

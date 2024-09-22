@@ -6,13 +6,12 @@ WORKDIR /app
 
 # Copiar os arquivos do projeto
 COPY package.json package-lock.json ./
-COPY ./ ./
 
 # Instalar dependências
 RUN npm install
 
-# Construir o projeto
-RUN npm run build
+# Copiar o restante dos arquivos do projeto
+COPY . .
 
 # Expor a porta que o Vite usará
 EXPOSE 5173

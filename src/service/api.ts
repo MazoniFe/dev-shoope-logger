@@ -1,7 +1,7 @@
 // src/services/apiService.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'http://144.91.91.131:7171';
+const API_BASE_URL = 'https://144.91.91.131:7171';
 
 export const ApiService = {
   async get(endpoint: string, headers?: Record<string, string>) {

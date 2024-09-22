@@ -6,7 +6,7 @@ const App = () => {
         <div className="grid min-h-screen bg-gray-800 grid-rows-5 px-10 py-6 gap-6">
             <div className="row-span-1 flex items-center justify-center">
                 <img
-                    src="../public/images/Shopee_logo.svg.png"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopee_logo.svg/1442px-Shopee_logo.svg.png"
                     className="w-20 lg:w-22 h-auto rounded-lg shadow-md"
                     alt=""
                 />

@@ -20,10 +20,13 @@ const processSlice = createSlice({
     },
     clearData: (state) => { // Corrigido aqui
       state.data = [];
+    },
+    setProcessData: (state, action: PayloadAction<RouteData[]>) => { // Nova ação
+      state.data = action.payload; // Atualiza o estado com os dados da API
     }
   },
 });
 
-export const { addData, removeData, updateData, clearData } = processSlice.actions; // Adicione clearData aqui
+export const { addData, removeData, updateData, clearData, setProcessData } = processSlice.actions; // Adicione clearData aqui
 
 export default processSlice.reducer;

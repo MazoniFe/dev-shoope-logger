@@ -1,9 +1,15 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CoreBadge from "./CoreBadge";
 import { IStationColorMap, ProcessState } from "../../types/types";
+import { useEffect, useState } from "react";
+import { processService } from "../../service/processService"; // Importe seu serviço
+import { setProcessData } from "../../features/process/processSlice";
 
 const ProcessStatus = () => {
+    const dispatch = useDispatch();
     const data = useSelector((state: { process: ProcessState }) => state.process.data);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const stationColor: IStationColorMap = {
         1: 'bg-red-600',
@@ -28,11 +34,29 @@ const ProcessStatus = () => {
         20: 'bg-stone-600',
     };
 
+    useEffect(() => {
+        const fetchData = async () => { 
+            setLoading(true); 
+            try {
+                const result = await processService.getProcessList();
+                dispatch(setProcessData(result)); // Atualiza o estado com os dados
+            } catch (err) {
+                setError('Erro ao buscar dados: ' + err);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchData();
+    }, [dispatch]);
+
     return (
         <div className="flex flex-col p-6 bg-gray-800 outline outline-2 outline-white rounded-xl shadow-md">
             <h3 className="text-lg md:text-2xl font-semibold mb-8 text-center text-white">
                 STATUS DO PROCESSO
             </h3>
+            {loading && <p className="text-center text-white">Carregando...</p>}
+            {error && <p className="text-center text-red-600">{error}</p>}
             <div className="overflow-x-auto">
                 <table className="min-w-full table-auto border-collapse">
                     <thead className="bg-orange-500 rounded-xl shadow-md">
@@ -74,7 +98,6 @@ const ProcessStatus = () => {
                                     <td className="px-2 py-4 font-semibold text-gray-300 text-base md:text-base lg:text-2xl align-middle">
                                         {item.time}
                                     </td>
-
                                 </tr>
                             ))
                         )}

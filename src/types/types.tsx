@@ -38,6 +38,7 @@ export interface IBadgeProps {
 };
 
 export interface RouteData {
+    id: number;
     station: string;
     route: string;
     time: string;

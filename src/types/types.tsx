@@ -38,7 +38,7 @@ export interface IBadgeProps {
 };
 
 export interface RouteData {
-    id: number;
+    id: number | null;
     station: string;
     route: string;
     time: string;

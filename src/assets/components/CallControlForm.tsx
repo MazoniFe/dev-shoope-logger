@@ -18,6 +18,7 @@ const CallControlForm: React.FC = () => {
 
     const handleButtonClick = () => {
         const newData: RouteData = {
+            id: null,
             station: benchValue,
             route: routeValue,
             time: new Date().toLocaleTimeString(),

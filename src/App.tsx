@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux"; // Importando useDispatch
 import CallControlForm from "./assets/components/CallControlForm";
 import ProcessStatus from "./assets/components/ProcessStatus";

@@ -4,9 +4,14 @@ import CoreCheckbox from './CoreCheckbox';
 import CoreLoadingBar from './CoreLoadingBar';
 import CoreButton from './CoreButton';
 import { IRouteData } from '../../types/types';
-import { processService } from '../../service/processService';
+import { processService } from '../../service/processService'
+import { MdAdminPanelSettings } from "react-icons/md";
+import { showLoginForm } from '../../features/loginForm/loginSlice';
+import { useDispatch } from 'react-redux';
+
 
 const CallControlForm: React.FC = () => {
+    const dispatch = useDispatch();
     const [isChecked, setIsChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -17,6 +22,10 @@ const CallControlForm: React.FC = () => {
         setIsChecked(event.target.checked);
     };
 
+    const handleLoginIcon = () => {
+        dispatch(showLoginForm());
+    }
+
     const handleButtonClick = async () => {
         setLoading(true);
         const newData: IRouteData = {
@@ -26,10 +35,10 @@ const CallControlForm: React.FC = () => {
             time: new Date().toLocaleTimeString(),
             waiting: isChecked,
         };
-    
+
         try {
             setProgress(0);
-            
+
             // Crie uma promessa para esperar o progresso
             const progressPromise = new Promise<void>((resolve) => {
                 const intervalId = setInterval(() => {
@@ -43,10 +52,10 @@ const CallControlForm: React.FC = () => {
                     });
                 }, 50);
             });
-    
+
             // Aguarde a barra de progresso completar
             await progressPromise;
-    
+
             // Após a barra de progresso estar completa, faça a inserção
             await processService.insertProcess(newData);
             setProgress(100); // Define o progresso como completo
@@ -155,6 +164,10 @@ const CallControlForm: React.FC = () => {
                     />
                 </div>
             </div>
+            <div className='mt-4 self-center sm:self-start  flex items-center justify-center bg-white w-10 h-10 rounded-md cursor-pointer' onClick={handleLoginIcon}>
+                <MdAdminPanelSettings size={35} />
+            </div>
+
         </div>
     );
 };

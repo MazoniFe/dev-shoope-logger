@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import CoreBadge from "./CoreBadge";
-import CoreSpinner from './CoreSpinner';
 import { IStationColorMap, ProcessState } from "../../types/types";
 import { useEffect, useState } from "react";
 import { processService } from "../../service/processService"; // Importe seu serviço
@@ -11,7 +10,6 @@ import { FaClock } from 'react-icons/fa'; // Example ico
 const ProcessStatus = () => {
     const dispatch = useDispatch();
     const data = useSelector((state: { process: ProcessState }) => state.process.data);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const stationColor: IStationColorMap = {
@@ -39,23 +37,25 @@ const ProcessStatus = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
             try {
                 const result = await processService.getProcessList();
                 dispatch(setProcessData(result));
+                setError('');
             } catch (err) {
+                console.log(err);
                 setError('Erro de conexão com o servidor');
-                
-                // Define um timeout para limpar a mensagem de erro após 5 segundos
-                setTimeout(() => {
-                    setError(null);
-                }, 5000);
             } finally {
-                setLoading(false);
             }
         };
-    
-        fetchData();
+
+        fetchData(); // Chamada inicial
+        const intervalId = setInterval(() => {
+            fetchData();
+        }, 2000);
+
+        return () => {
+            clearInterval(intervalId); // Limpa o intervalo ao desmontar o componente
+        };
     }, [dispatch]);
     
 
@@ -65,11 +65,11 @@ const ProcessStatus = () => {
                 <h3 className="flex-1 text-lg md:text-2xl font-semibold text-center text-white">
                     STATUS DO PROCESSO
                 </h3>
-                {loading && (
+                {/* {loading && (
                     <div className="absolute right-0">
                         <CoreSpinner size="medium" />
                     </div>
-                )}
+                )} */}
             </div>
 
 

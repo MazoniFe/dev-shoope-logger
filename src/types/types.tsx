@@ -54,6 +54,10 @@ export interface ProcessState {
     data: IRouteData[];
 }
 
+export interface AccessState {
+    isAdmin: boolean;
+}
+
 export interface IStationColorMap {
     [stationNumber: number]: string;
 }
@@ -66,4 +70,12 @@ export interface CoreLoadingBarProps {
     size: 'small' | 'default' | 'large' | 'extra-large';
     progress: number;
     hidden: boolean;
+}
+
+export interface LoginFormState {
+    isVisible: boolean;
+}
+
+export interface RootState {
+    loginForm: LoginFormState 
 }

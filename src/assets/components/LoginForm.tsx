@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import CoreInput from './CoreInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideLoginForm } from '../../features/loginForm/loginSlice';
-import { RootState } from '../../types/types';
+import { hideLoginForm, login } from '../../features/loginForm/loginSlice';
+import { IUserLogin, RootState } from '../../types/types';
+import { loginService } from '../../service/loginService';
 
 const LoginForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -28,23 +29,31 @@ const LoginForm: React.FC = () => {
         setPassword(e.target.value);
     };
 
-    const handleButtonClick = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true); // Ativando o estado de carregamento
-
+    const callLoginAPI = async () => {
+        const data: IUserLogin = {
+            email: username,
+            password: password,
+        };
+    
         try {
-            // Simulando uma chamada assíncrona
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-            // Adicione sua lógica de autenticação aqui
-
-            // Após a autenticação, você pode ocultar a modal
+            setLoading(true);
+            const response = await loginService.doLogin(data);
+            
+            console.log('Login bem-sucedido:', response);
+            dispatch(login(response)); 
             dispatch(hideLoginForm());
+            setUsername('');
+            setPassword('');
         } catch (error) {
             console.error("Erro ao fazer login:", error);
         } finally {
-            setLoading(false); // Desativando o estado de carregamento
+            setLoading(false);
         }
+    };
+
+    const handleButtonClick = async (e: React.FormEvent) => {
+        e.preventDefault();
+        await callLoginAPI();
     };
 
     return (

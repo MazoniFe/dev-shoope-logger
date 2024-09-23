@@ -44,6 +44,11 @@ export interface IRouteData {
     time: string;
     waiting: boolean;
 }
+export interface IUserLogin {
+    id?: number | null;
+    email: string;
+    password: string;
+}
 
 export interface IAPIResponse {
     status: number;
@@ -74,8 +79,9 @@ export interface CoreLoadingBarProps {
 
 export interface LoginFormState {
     isVisible: boolean;
+    user: IUserLogin | null
 }
 
 export interface RootState {
-    loginForm: LoginFormState 
+    loginForm: LoginFormState
 }

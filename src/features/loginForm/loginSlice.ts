@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { LoginFormState } from '../../types/types';
 
 const initialState: LoginFormState = {
-  isVisible: true,
+  isVisible: false,
+  user : null
 };
 
 const loginFormSlice = createSlice({
@@ -18,9 +19,15 @@ const loginFormSlice = createSlice({
     toggleLoginForm: (state) => {
       state.isVisible = !state.isVisible; 
     },
+    login: (state, action) => {
+      state.user = action.payload; 
+    },
+    logout: (state) => {
+      state.user = null; 
+    },
   },
 });
 
-export const { showLoginForm, hideLoginForm, toggleLoginForm } = loginFormSlice.actions;
+export const { showLoginForm, hideLoginForm, toggleLoginForm, login, logout } = loginFormSlice.actions;
 
 export default loginFormSlice.reducer;

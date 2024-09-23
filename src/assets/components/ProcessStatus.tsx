@@ -1,16 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
 import CoreBadge from "./CoreBadge";
-import { IStationColorMap, ProcessState } from "../../types/types";
+import { IStationColorMap, ProcessState, RootState } from "../../types/types";
 import { useEffect, useState } from "react";
 import { processService } from "../../service/processService"; // Importe seu serviço
 import { setProcessData } from "../../features/process/processSlice";
 import { FaClock } from 'react-icons/fa'; // Example ico
+import CoreSpinner from "./CoreSpinner";
 
 
 const ProcessStatus = () => {
     const dispatch = useDispatch();
     const data = useSelector((state: { process: ProcessState }) => state.process.data);
+    const user = useSelector((state: RootState) => state.loginForm.user);
     const [error, setError] = useState('');
+    const [isLoading, setLoading] = useState(false);
 
     const stationColor: IStationColorMap = {
         1: 'bg-red-600',
@@ -44,7 +47,6 @@ const ProcessStatus = () => {
             } catch (err) {
                 console.log(err);
                 setError('Erro de conexão com o servidor');
-            } finally {
             }
         };
 
@@ -57,7 +59,23 @@ const ProcessStatus = () => {
             clearInterval(intervalId); // Limpa o intervalo ao desmontar o componente
         };
     }, [dispatch]);
-    
+
+    const clearDatabase = () => {
+        setLoading(true); // Ativar o estado de carregamento
+
+        processService.clearDatabase()
+            .then((response) => {
+                // Aqui você pode lidar com a resposta do serviço
+                console.log("Banco de dados limpo com sucesso:", response);
+            })
+            .catch((error) => {
+                // Lida com erros aqui
+                console.error("Erro ao limpar o banco de dados:", error);
+            })
+            .finally(() => {
+                setLoading(false); // Desativar o estado de carregamento
+            });
+    };
 
     return (
         <div className="flex flex-col p-6 bg-gray-800 outline outline-2 outline-white rounded-xl shadow-md">
@@ -65,11 +83,23 @@ const ProcessStatus = () => {
                 <h3 className="flex-1 text-lg md:text-2xl font-semibold text-center text-white">
                     STATUS DO PROCESSO
                 </h3>
-                {/* {loading && (
-                    <div className="absolute right-0">
-                        <CoreSpinner size="medium" />
+
+                {user !== null && ( // Exibe o botão somente se o usuário não for nulo
+                    <div className="flex items-center justify-center relative">
+                        {isLoading && (
+                            <div className="absolute left-[-15px] sm:left-[-20px] md:left-[-25px] lg:left-[-30px]"> {/* Ajustes responsivos */}
+                                <CoreSpinner size="small" />
+                            </div>
+                        )}
+                        <button
+                            className={`ml-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            onClick={clearDatabase}
+                            disabled={isLoading} // Desabilita o botão enquanto está carregando
+                        >
+                            Deletar
+                        </button>
                     </div>
-                )} */}
+                )}
             </div>
 
 

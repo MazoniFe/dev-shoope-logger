@@ -62,13 +62,13 @@ const LoginForm: React.FC = () => {
                 id='usernameInput'
                 onChange={handleUsernameChange}
                 formValidation={true}
-                formDafaultMessage='Email válido'
-                formValidationFailedMessage='Email um usuário válido'
+                formDafaultMessage='Usuário válido'
+                formValidationFailedMessage='Usuário válido'
                 success={username.length > 0} // Condição de sucesso
                 type='text'
-                ariaLabel='Email'
+                ariaLabel='Usuário'
                 value={username}
-                placeholder='Digite um email'
+                placeholder='Digite um Usuário'
                 className="mb-4"
             />
 

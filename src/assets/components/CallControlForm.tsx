@@ -32,10 +32,14 @@ const CallControlForm: React.FC = () => {
             id: null,
             station: benchValue,
             route: routeValue,
-            time: new Date().toLocaleTimeString(),
+            time: new Date().toLocaleString('pt-BR', {
+                timeZone: 'America/Sao_Paulo', // Fuso horário de Brasília
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            }),
             waiting: isChecked,
         };
-
         try {
             setProgress(0);
 

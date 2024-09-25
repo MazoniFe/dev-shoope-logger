@@ -64,7 +64,7 @@ const CallControlForm: React.FC = () => {
         } finally {
             setLoading(false); // Para o loading
             setRouteValue('');
-            setBenchValue('');
+            //setBenchValue('');
             setIsChecked(false);
         }
     };

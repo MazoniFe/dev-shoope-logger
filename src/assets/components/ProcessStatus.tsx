@@ -84,17 +84,17 @@ const ProcessStatus = () => {
                     STATUS DO PROCESSO
                 </h3>
 
-                {user !== null && ( // Exibe o botão somente se o usuário não for nulo
+                {user !== null && (
                     <div className="flex items-center justify-center relative">
                         {isLoading && (
-                            <div className="absolute left-[-15px] sm:left-[-20px] md:left-[-25px] lg:left-[-30px]"> {/* Ajustes responsivos */}
+                            <div className="absolute left-[-15px] sm:left-[-20px] md:left-[-25px] lg:left-[-30px]">
                                 <CoreSpinner size="small" />
                             </div>
                         )}
                         <button
                             className={`ml-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                             onClick={clearDatabase}
-                            disabled={isLoading} // Desabilita o botão enquanto está carregando
+                            disabled={isLoading}
                         >
                             Deletar
                         </button>
@@ -102,11 +102,11 @@ const ProcessStatus = () => {
                 )}
             </div>
 
-
             {error && <p className="text-center text-red-600">{error}</p>}
-            <div className="relative overflow-x-auto">
+
+            <div className="relative overflow-y-auto max-h-96"> {/* Ajuste a altura máxima conforme necessário */}
                 <table className={`min-w-full table-auto border-collapse`}>
-                    <thead className="bg-orange-500 rounded-xl shadow-md">
+                    <thead className="bg-orange-500 rounded-xl shadow-md sticky top-0"> {/* Adicionado sticky para o cabeçalho */}
                         <tr>
                             <th className="px-2 py-3 text-left text-white text-base lg:text-xl font-medium sm:text-sm min-w-[100px]">ESTAÇÃO</th>
                             <th className="px-2 py-3 text-left text-white text-base lg:text-xl font-medium sm:text-sm min-w-[100px]">ROTA</th>
@@ -134,7 +134,6 @@ const ProcessStatus = () => {
                                         {item.route}
                                         {item.waiting ? (
                                             <div className="ml-2 flex items-center">
-                                                {/* Render CoreBadge for larger screens */}
                                                 <div className="hidden md:flex">
                                                     <CoreBadge
                                                         text="Em espera"
@@ -142,7 +141,6 @@ const ProcessStatus = () => {
                                                         size="smedium"
                                                     />
                                                 </div>
-                                                {/* Render icon for smaller screens */}
                                                 <div className="md:hidden flex items-center">
                                                     <FaClock className="text-yellow-500" />
                                                 </div>
@@ -160,6 +158,7 @@ const ProcessStatus = () => {
             </div>
         </div>
     );
+
 };
 
 export default ProcessStatus;

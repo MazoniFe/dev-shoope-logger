@@ -75,9 +75,9 @@ const CallControlForm: React.FC = () => {
 
     const handleRouteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        const fullRegex = /^[A-Ka-k]-?(5[0-2]|[1-4][1-9]|[1-4]\d|[1-9]\d?)$/;
+        const fullRegex = /^[A-La-l]-?(5[0-2]|[1-4][1-9]|[1-4]\d|[1-9]\d?)$/;
 
-        if (newValue.length === 1 && /^[A-Ka-k]$/.test(newValue)) {
+        if (newValue.length === 1 && /^[A-La-l]$/.test(newValue)) {
             setRouteValue(newValue.toLocaleUpperCase() + '-');
         } else if (fullRegex.test(newValue)) {
             setRouteValue(newValue);

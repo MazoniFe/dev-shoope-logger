@@ -74,15 +74,15 @@ const CallControlForm: React.FC = () => {
     };
 
     const handleRouteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        const fullRegex = /^[A-Na-n]-?(5[0-2]|[1-4][1-9]|[1-4]\d|[1-9]\d?)$/;
-
-        if (newValue.length === 1 && /^[A-Na-n]$/.test(newValue)) {
-            setRouteValue(newValue.toLocaleUpperCase() + '-');
+        const newValue = event.target.value.toUpperCase(); // Converte para maiúsculas automaticamente
+        const fullRegex = /^[A-Za-z]-?(5[0-2]|[1-4][1-9]|[1-4]\d|[1-9]\d?)$/;
+    
+        if (newValue.length === 1 && /^[A-Za-z]$/.test(newValue)) {
+            setRouteValue(newValue.toUpperCase() + '-');
         } else if (fullRegex.test(newValue)) {
             setRouteValue(newValue);
         }
-
+    
         if (newValue.length < routeValue.length) {
             if (routeValue.charAt(routeValue.length - 1) === '-') {
                 setRouteValue('');
@@ -90,7 +90,7 @@ const CallControlForm: React.FC = () => {
                 setRouteValue(newValue);
             }
         }
-    }
+    };
 
     const handleBenchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
